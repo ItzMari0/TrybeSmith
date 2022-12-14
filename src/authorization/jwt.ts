@@ -22,7 +22,7 @@ const tokenGenerator = (payload: string) => jwt
 //   return data.id;
 // };
 
-export {
+export default {
   tokenGenerator,
   // tokenVerify,
   // tokenDecode,
