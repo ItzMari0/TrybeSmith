@@ -13,7 +13,7 @@ const loginUser = async (login: TLogin): Promise<string | number> => {
     'SELECT * FROM Trybesmith.users WHERE password = ?;',
     [login.password],
   );
-  if (!userLogin && !passwordLogin) {
+  if (!userLogin || !passwordLogin) {
     return 'Username or password invalid';
   }
   return userLogin.id;
