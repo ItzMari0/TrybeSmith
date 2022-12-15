@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken';
 
 const secret = process.env.JWT_SECRET;
 
-const tokenGenerator = (payload: string) => jwt
-  .sign({ payload }, secret as string, {
+const tokenGenerator = (id: number, username: string) => jwt
+  .sign({ payload: id, username }, secret as string, {
     algorithm: 'HS256',
     expiresIn: '1d',
   });

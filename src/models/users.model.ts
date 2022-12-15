@@ -7,11 +7,12 @@ const createUser = async (
   vocation: string,
   level: number,
   password: string,
-): Promise<void> => {
-  await connection.execute<ResultSetHeader & TUsers>(
+): Promise<number> => {
+  const [{ insertId }] = await connection.execute<ResultSetHeader & TUsers>(
     'INSERT INTO Trybesmith.users (username, vocation, level, password) VALUE (?,?,?,?);',
     [username, vocation, level, password],
   );
+  return insertId;
 };
 
 export default {
