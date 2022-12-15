@@ -5,15 +5,10 @@ import connection from './connection';
 const loginUser = async (login: TLogin): Promise<string | number> => {
   const [[userLogin]] = await connection
     .execute<RowDataPacket[]>(
-    'SELECT * FROM Trybesmith.users WHERE username = ?;',
-    [login.username],
+    'SELECT * FROM Trybesmith.users WHERE username = ? AND password = ?;',
+    [login.username, login.password],
   );
-  const [[passwordLogin]] = await connection
-    .execute<RowDataPacket[]>(
-    'SELECT * FROM Trybesmith.users WHERE password = ?;',
-    [login.password],
-  );
-  if (!userLogin || !passwordLogin) {
+  if (!userLogin) {
     return 'Username or password invalid';
   }
   return userLogin.id;
