@@ -6,6 +6,14 @@ const getOrders = async (_req: Request, res: Response) => {
   return res.status(200).json(orders);
 };
 
+const createOrder = async (req: Request, res: Response) => {
+  const { authorization } = req.headers;
+  const { productsIds } = req.body;
+  const result = await ordersService.createOrder(productsIds, authorization as string);
+  return res.status(201).json(result);
+};
+
 export default {
   getOrders,
+  createOrder,
 };

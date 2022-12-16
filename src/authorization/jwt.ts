@@ -2,20 +2,29 @@ import jwt from 'jsonwebtoken';
 
 const secret = process.env.JWT_SECRET;
 
+type Token = {
+  id: number,
+  username: string,
+};
+
 const tokenGenerator = (id: number, username: string) => jwt
-  .sign({ payload: id, username }, secret as string, {
+  .sign({ id, username }, secret as string, {
     algorithm: 'HS256',
     expiresIn: '1d',
   });
 
-// const tokenVerify = (authorization) => {
-//   try {
-//     const payload = jwt.verify(authorization, secret);
-//     return { type: null, message: payload };
-//   } catch (error) {
-//     return { type: 401, message: 'Expired or invalid token' };
-//   }
-// }; 
+const tokenVerify = (authorization: string) => {
+  try {
+    const payload = jwt.verify(authorization, secret as string);
+    return payload as Token; 
+  } catch (error) {
+    const payload: Token = {
+      id: 0,
+      username: 'Invalid',
+    };
+    return payload;
+  }
+}; 
 
 // const tokenDecode = (authorization) => {
 //   const { data } = jwt.decode(authorization);
@@ -24,6 +33,6 @@ const tokenGenerator = (id: number, username: string) => jwt
 
 export default {
   tokenGenerator,
-  // tokenVerify,
+  tokenVerify,
   // tokenDecode,
 };
